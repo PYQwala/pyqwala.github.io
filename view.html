@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/favicon.png" type="image/gif" />
+    <title>PYQwala</title>
+    <style>
+        body { 
+            margin: 0; 
+            padding-bottom: 50px;
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            background: #f4f4f4; 
+            overflow: hidden; 
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin: 10px 0;
+            font-size: 24px;
+            text-align: center;
+            color: #333;
+        }
+        #pdf-container { 
+            width: 90vw; 
+            height: 75vh; 
+            border: 2px solid #000; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        iframe { 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+        }
+        .button-container {
+            margin-top: 10px;
+            display: flex;
+            gap: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            /* padding-bottom: 50px; */
+            margin-bottom: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #1e7e34;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1 id="title"></h1>
+    
+    <div id="pdf-container">
+        <iframe id="pdf-frame" allowfullscreen></iframe>
+    </div>
+
+    <div class="button-container">
+        <button id="prev" class="btn btn-secondary" onclick="prevPaper()">PREV</button>
+        <button id="back" class="btn btn-primary" onclick="back()">BACK</button>
+        <button id="next" class="btn btn-secondary" onclick="nextPaper()">NEXT</button>
+    </div>
+
+   <script>
+    function updatePDF(id) {
+        let pdfFrame = document.getElementById('pdf-frame');
+        pdfFrame.src = `https://drive.google.com/file/d/${id}/preview`;
+    }
+
+    function getQueryParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let params = {};
+
+        // Convert URLSearchParams to an object
+        urlParams.forEach((value, key) => {
+            params[key] = value;
+        });
+
+        return params;
+    }
+
+    let contents = {
+        "10th": {
+            "hindi": {
+                "2014": "162nXZfAsMSmPV3iS5jeNeefTtdpTexqi",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW",
+            },
+            "science": {
+                "2025": "1-EttEMpLNKAof3X2Hda42g8q9tKcyU28",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW",
+            },
+            "sst": {
+                "2025": "1-EttEMpLNKAof3X2Hda42g8q9tKcyU28",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW",
+            },
+            "sanskrit": {
+                "2025": "1-EttEMpLNKAof3X2Hda42g8q9tKcyU28",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW",
+            },
+            "maths": {
+                "2025": "1-EttEMpLNKAof3X2Hda42g8q9tKcyU28",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW",
+            },
+            "english": {
+                "2025": "1-EttEMpLNKAof3X2Hda42g8q9tKcyU28",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW",
+            },
+            
+        },
+        "12th": {
+            "hindi": {
+                "2014": "162nXZfAsMSmPV3iS5jeNeefTtdpTexqi",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW",
+            },
+            "english": {
+                "2025": "1-EttEMpLNKAof3X2Hda42g8q9tKcyU28",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW",
+            },
+            "physics": {
+                "2025": "1-EttEMpLNKAof3X2Hda42g8q9tKcyU28",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW",
+            },
+            "chemistry": {
+                "2025": "1-EttEMpLNKAof3X2Hda42g8q9tKcyU28",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW",
+            },
+            "maths": {
+                "2025": "1-EttEMpLNKAof3X2Hda42g8q9tKcyU28",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW",
+            },
+            "biology": {
+                "2025": "1-EttEMpLNKAof3X2Hda42g8q9tKcyU28",
+                "2015": "1VXrPyamELYPpnUqo_Omw4wJpfIhMzcqW"
+            },
+        },
+        
+    };
+
+    let vals = getQueryParams();
+    const idValues = Object.values(contents[vals.class][vals.sub]);
+    const idKeys = Object.keys(contents[vals.class][vals.sub]);
+    let currentPdfId = contents[vals.class][vals.sub][vals.year];
+    let currentIndex = idValues.indexOf(currentPdfId);
+
+    function updateContent(pdfId) {
+        document.getElementById("title").innerHTML = `PYQ ${vals.sub.toUpperCase()}(${vals.class}-${vals.year})`;
+        if (pdfId) {
+            updatePDF(pdfId);
+        } else {
+            window.location.href = "notice.html";
+        }
+    }
+
+    updateContent(currentPdfId);
+
+    function prevPaper() {
+        if (currentIndex === 0) {
+            return window.alert("This is the first paper.");
+        }
+        currentIndex = currentIndex - 1;
+        vals.year = idKeys[currentIndex];
+        currentPdfId = idValues[currentIndex];
+        updateContent(currentPdfId);
+    }
+
+    function nextPaper() {
+        if (currentIndex === idValues.length - 1) {
+            return window.alert("This is the last paper.");
+        }
+        currentIndex = currentIndex + 1;
+        vals.year = idKeys[currentIndex];
+        currentPdfId = idValues[currentIndex];
+        updateContent(currentPdfId);
+    }
+
+    function back(){
+        window.location.href = window.origin + `/years.html?class=${vals.class}&sub=${vals.sub}`
+    }
+
+</script>
+</body>
+</html>
