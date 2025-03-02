@@ -35,6 +35,7 @@
               }
     }
   </script>
+
 </head>
 
 <body class="sub_page">
@@ -97,14 +98,14 @@
           </div>
         </div>
         <div class="col-md-6">
-          <h4 style="color: burlywood;">COMING SOON!</h4>
+          <h4 id="notice" style="color: burlywood;">COMING SOON!</h4>
           <div class="detail-box">
             <div class="heading_container">
-              <h5>
+              <h5 id="desc">
                 PYQs are being uploaded soon!
               </h5>
             </div>
-            <p>
+            <p >
               if you have any request or query please leave a feedback!
             </p>
             <a href="contact.html">
@@ -115,6 +116,16 @@
       </div>
     </div>
   </section>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const year = params.get('year');
+    const std = params.get('class');
+    if(year==2021){
+      document.getElementById("notice").innerText = 'Lockdown Year!';
+      document.getElementById("desc").innerText = `All the other PYQs are updated for ${std}`;
+    }
+  </script>
 
   <!-- end about section -->
 
