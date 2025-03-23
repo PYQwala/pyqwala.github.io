@@ -614,7 +614,7 @@
     }
 
     function downAPK(){
-      document.addEventListener("DOMContentLoaded", function(){
+      window.addEventListener("load", function(){
         const apkBuildNum = window.localStorage.getItem("apkBuildNum");
         const webBuildNum = window.localStorage.getItem("webBuildNum");
           if(apkBuildNum){
@@ -638,7 +638,7 @@
         })
       }
 
-      window.onload = downAPK;
+      downAPK();
 
       
    </script>
