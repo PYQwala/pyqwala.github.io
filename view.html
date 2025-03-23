@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/favicon.png" type="image/gif" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/umd/supabase.js"></script>
+    <title>PYQwala</title>
+    <style>
+        body { 
+            margin: 0; 
+            padding-bottom: 50px;
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            background: #f4f4f4; 
+            overflow: hidden; 
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin: 10px 0;
+            font-size: 24px;
+            text-align: center;
+            color: #333;
+        }
+        #pdf-container { 
+            width: 90vw; 
+            height: 75vh; 
+            border: 2px solid #000; 
+            position: relative; 
+            overflow: hidden; 
+        }
+        iframe { 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+        }
+        .button-container {
+            margin-top: 10px;
+            display: flex;
+            gap: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            /* padding-bottom: 50px; */
+            margin-bottom: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #1e7e34;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1 id="title"></h1>
+    
+    <div id="pdf-container">
+        <iframe id="pdf-frame" allowfullscreen></iframe>
+    </div>
+
+    <div class="button-container">
+        <button id="prev" class="btn btn-secondary" onclick="prevPaper()">PREV</button>
+        <button id="back" class="btn btn-primary" onclick="back()">BACK</button>
+        <button id="next" class="btn btn-secondary" onclick="nextPaper()">NEXT</button>
+    </div>
+
+   <script>
+              const key = window.localStorage.getItem("key");
+        const url = window.localStorage.getItem("url");
+        const supabase = window.supabase.createClient(url,key);
+
+
+    function updatePDF(id) {
+        let pdfFrame = document.getElementById('pdf-frame');
+        pdfFrame.src = `https://drive.google.com/file/d/${id}/preview`;
+    }
+
+    function getQueryParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let params = {};
+
+        // Convert URLSearchParams to an object
+        urlParams.forEach((value, key) => {
+            params[key] = value;
+        });
+
+        return params;
+    }
+
+    
+const contents = {}; // Store all data
+
+// Get URL parameters
+let vals = getQueryParams();
+
+// Ensure `vals` has expected properties
+if (!vals.class || !vals.sub) {
+  console.error("Invalid URL parameters:", vals);
+} else {
+  console.log("Query Params Loaded:", vals);
+}
+
+async function loadUrls() {
+  try {
+    const { data, error } = await supabase
+      .from("categories")
+      .select("year, link") // Only select necessary columns
+      .eq("class", vals.class) // Filter by class
+      .eq("subject", vals.sub) // Filter by subject
+      .order("year", { ascending: false }); // Order years in descending order
+
+    if (error) {
+      console.error("Error loading data:", error.message);
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      console.warn("No data found for", vals.class, vals.sub);
+      return;
+    }
+
+    // Ensure object structure exists
+    if (!contents[vals.class]) {
+      contents[vals.class] = {};
+    }
+    if (!contents[vals.class][vals.sub]) {
+      contents[vals.class][vals.sub] = {};
+    }
+
+    // Populate the `contents` object
+    data.forEach((val) => {
+      contents[vals.class][vals.sub][val.year] = val.link;
+    });
+
+    console.log("Contents loaded:", contents);
+  } catch (err) {
+    console.error("Unexpected error:", err);
+  }
+}
+
+let idValues;
+let idKeys ;
+let currentPdfId;
+let currentIndex;
+
+function updateContent(pdfId) {
+        document.getElementById("title").innerHTML = `PYQ ${vals.sub.toUpperCase()}(${vals.class}-${vals.year})`;
+        if (pdfId) {
+            updatePDF(pdfId);
+        } else {
+            window.location.href = `notice.html?year=${vals.year}&class=${vals.class}`;
+        }
+    }
+    
+// Use `await` to ensure data is loaded before using `contents`
+async function main() {
+  await loadUrls(); // Wait for data to be fetched before proceeding
+
+  if (!contents[vals.class] || !contents[vals.class][vals.sub]) {
+    console.error("Data structure not initialized properly:", contents);
+    return;
+  }
+
+  // Now safely access `contents`
+   idValues = Object.values(contents[vals.class][vals.sub]);
+   idKeys = Object.keys(contents[vals.class][vals.sub]);
+   currentPdfId = contents[vals.class][vals.sub][vals.year];
+   currentIndex = idValues.indexOf(currentPdfId);
+
+  console.log("PDF ID:", currentPdfId, "Index:", currentIndex);
+
+    updateContent(currentPdfId);
+
+}
+// Call the `main()` function to run everything in order
+main();
+
+function prevPaper() {
+    if (currentIndex === 0) {
+        return window.alert("This is the first paper.");
+    }
+    currentIndex = currentIndex - 1;
+    vals.year = idKeys[currentIndex];
+    currentPdfId = idValues[currentIndex];
+    updateContent(currentPdfId);
+}
+
+function nextPaper() {
+    if (currentIndex === idValues.length - 1) {
+        return window.alert("This is the last paper.");
+    }
+    currentIndex = currentIndex + 1;
+    vals.year = idKeys[currentIndex];
+    currentPdfId = idValues[currentIndex];
+    updateContent(currentPdfId);
+}
+
+function back(){
+    window.location.href = window.origin + `/years.html?class=${vals.class}&sub=${vals.sub}`
+}
+</script>
+</body>
+</html>

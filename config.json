@@ -1,0 +1,8 @@
+{
+    "appName": "PYQwala",
+    "version": "1.0.0",
+    "build": "20250323",
+    "releaseDate": "2025-03-20",
+    "author": "Dheeraj",
+    "description": "This is a sample configuration file for version management of PYQwala."
+}

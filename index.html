@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <link rel="icon" href="images/favicon.png" type="image/gif" />
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="Dheeraj" content="" />
+
+  <title>PYQwala</title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <!-- font awesome style -->
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+
+
+  <script>
+    function addBuildNum(){
+            fetch("config.json")
+                .then(response => response.json())
+                .then(config => {
+                  window.localStorage.setItem("webBuildNum", config.build);
+                })
+                .catch(error => console.error("Error loading config:", error));
+        }
+      addBuildNum();
+
+    function chatRoom(){
+            let userName = localStorage.getItem("username");
+            if (userName){
+                return window.location.href= "chat.html";
+            }else{
+                return window.location.href= "reg.html";
+              }
+    }
+
+    function sub(){
+      document.getElementById("url").value=window.location.origin
+      document.getElementsByTagName("form").submit();
+  }
+  </script>
+
+
+  <style>
+     /* The popup container */
+     .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgb(206, 132, 132);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        /* Background overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .close-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            float: right;
+        }
+
+        .open-btn {
+            padding: 10px 20px;
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 50px;
+        }
+  </style>
+</head>
+
+<body>
+  <!-- popup section -->
+  <div class="overlay" id="overlay" onclick="closePopup()"></div>
+  <div class="popup" id="popup" style="text-align: center;">
+    <img  style="height: 100px;width: 100px;" src="images/favicon.png" alt="">
+      <!-- <button id="closeBtn" class="close-btn" onclick="closePopup()">X</button> -->
+      <h2 id="downloadNote">Update PYQwala</h2>
+      <p id="oldVersion"></p>
+      <p id="newVersion"></p>
+      <button id="downloadBut" style="background-color:red;color: whitesmoke; border-radius: 15%;" onclick="apkPure()">UPDATE</button>
+  </div>
+  <script>
+    function openPopup() {
+        document.getElementById("popup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+    }
+
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
+</script>
+
+  <!-- test -->
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <span style="color: orange;font-size: 30px;">
+              PYQ <span style="font-size: 20px; color:beige;">wala</span>
+            </span>
+          </a>
+          
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a class="nav-link pl-lg-0" href="index.html">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="about.html"> About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="categories.html">Categories</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="chat" onclick="chatRoom()"> PYQchat </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="contact.html">Contact Us</a>
+              </li>
+            </ul>
+            <from class="search_form" hidden>
+              <input type="text" class="form-control" placeholder="Search here...">
+              <button class="" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+            </from>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class="slider_section ">
+      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="detail-box">
+                    <h5>
+                      PYQwala Store
+                    </h5>
+                    <h1>
+                      For Your <br>
+                      Exam Needs!
+                    </h1>
+                    <p>
+                      "Leave your examination preparation worries to us!"🎉📑
+                    </p>
+                    <a href="about.html">
+                      Read More
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="img-box">
+                    <img src="images/slider-img.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="detail-box">
+                    <h5>
+                      PYQwala Store
+                    </h5>
+                    <h1>
+                      Unlock Success <br>
+                      with Every PYQ!
+                      
+                    </h1>
+                    <p>
+                      "Unlock Success with Every PYQ – Your Gateway to Excellence!" 🚀📚
+                    </p>
+                    <a href="about.html">
+                      Read More
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="img-box">
+                    <img src="images/slider-img.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="container ">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="detail-box">
+                    <h5>
+                      PYQwala Store
+                    </h5>
+                    <h1>
+                      PYQs for Success!
+                    </h1>
+                    <p>
+                      "PYQs for Success – Learn. Practice. Achieve!" 🚀
+                    </p>
+                    <a href="about.html">
+                      Read More
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="img-box">
+                    <img src="images/slider-img.png" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel_btn_box">
+          <a class="carousel-control-prev" href="#customCarousel1" role="button" data-slide="prev">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#customCarousel1" role="button" data-slide="next">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- end slider section -->
+  </div>
+
+
+  <!-- catagory section -->
+
+  <section class="catagory_section layout_padding">
+    <div class="catagory_container">
+      <div class="container ">
+        <div class="heading_container heading_center">
+          <h2>
+            PYQ Categories
+          </h2>
+          <p>
+            This is in development phase,PYQs will be uploaded soon! 
+          </p>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-md-4 ">
+            <div class="box ">
+              <div class="img-box">
+                <a href="10th.html">
+                  <img src="images/cat1.png" alt="">
+                </a>
+              </div>
+              <div class="detail-box">
+                <a href="10th.html">
+                  <h5>
+                    Class 10th
+                  </h5>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2nd -->
+          <div class="col-sm-6 col-md-4 ">
+            <div class="box ">
+              <div class="img-box">
+                <a href="12th.html">
+                  <img src="images/cat1.png" alt="">
+                </a>
+              </div>
+              <div class="detail-box">
+                <a href="12th.html">
+                  <h5>
+                    Class 12th
+                  </h5>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- more -->
+          <div class="col-sm-6 col-md-4 ">
+            <div class="box ">
+              <div class="img-box">
+                <a href="categories.html">
+                  <img src="images/cat1.png" alt="">
+                </a>
+              </div>
+              <div class="detail-box">
+                <a href="categories.html">
+                  <h5>
+                    All
+                  </h5>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+        </div> 
+      </div>
+    </div>
+</section>
+  <!-- end catagory section -->
+
+  <!-- about section -->
+
+  <section class="about_section layout_padding">
+    <div class="container ">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="images/about-img.png" alt="">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-box">
+            <div class="heading_container">
+              <h2>
+                About PYQwala
+              </h2>
+            </div>
+            <p>
+              Welcome to PYQwala, your ultimate destination for Previous Year Question Papers (PYQs)! 🎯📚 <br><br>
+              We believe that smart preparation leads to great success, and PYQs...
+            </p>
+            <a href="about.html">
+              Read More
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end about section -->
+
+  <!-- client section -->
+
+  <section class="client_section layout_padding">
+    <div class="container ">
+      <div class="heading_container heading_center">
+        <h2>
+          Students Corner
+        </h2>
+        <hr>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="client_container ">
+            <div class="detail-box">
+              <p>
+               <strong>"Best Resource for PYQs!"</strong>  <br>
+                ⭐⭐⭐⭐⭐ <br>
+                "This website has been a game-changer for my exam preparation! The PYQs are 
+                well-organized and easy to access. Highly recommended for students looking to score 
+                better!"
+              </p>
+              <span>
+                <i class="fa fa-quote-left" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="client_id">
+              <div class="img-box">
+                <img src="images/boy.jpeg" alt="">
+              </div>
+              <div class="client_name">
+                <h5>
+                  Rohan Mandal
+                </h5>
+                <h6>
+                  Student
+                </h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mx-auto">
+          <div class="client_container ">
+            <div class="detail-box">
+              <p>
+               <strong> "Must-Have for Every Student!" <br>⭐⭐⭐⭐⭐</strong><br>
+              
+              "This platform provides exactly what students need – past question papers with clear categorization. It has helped me understand exam patterns and boost my confidence!"
+              </p>
+              <span>
+                <i class="fa fa-quote-left" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="client_id">
+              <div class="img-box">
+                <img src="images/girl.jpeg" alt="">
+              </div>
+              <div class="client_name">
+                <h5>
+                  Riya Ray
+                </h5>
+                <h6>
+                  Student
+                </h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 mx-auto">
+          <div class="client_container ">
+            <div class="detail-box">
+              <p>
+               <strong>"Super Helpful & Time-Saving!"</strong><br>
+                ⭐⭐⭐⭐⭐ <br>
+                "Finding past papers used to be a hassle, but this site made it so simple!
+                Now I can practice previous year questions anytime and improve my performance. Thank you!"
+              </p>
+              <span>
+                <i class="fa fa-quote-left" aria-hidden="true"></i>
+              </span>
+            </div>
+            <div class="client_id">
+              <div class="img-box">
+                <img src="images/girl2.jpeg" alt="">
+              </div>
+              <div class="client_name">
+                <h5>
+                  Neha Joshi
+                </h5>
+                <h6>
+                  Student
+                </h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end client section -->
+
+  <!-- blog section -->
+
+  <!-- contact section -->
+
+  <section class="contact_section layout_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 ">
+          <div class="heading_container ">
+            <h2 class="">
+              Contact
+            </h2>
+          </div>
+          <form action="https://script.google.com/macros/s/AKfycbwKESrOqGbiwhrNg9Xta9LXqzAoaaFSbP6AhPEZEvxJrY1iTURudb6lgmyiIb2Gjejg/exec"
+          method="post">
+            <input id="url" type="text" hidden name="url">
+            <div>
+              <input name="name" type="text" placeholder="Name" required />
+            </div>
+            <div>
+              <input name="email" type="email" placeholder="Email" required/>
+            </div>
+            <div>
+              <input name="number" type="number" placeholder="Phone Number" required />
+            </div>
+            <div>
+              <input name="msg" type="text" class="message-box" placeholder="Message" maxlength="150"/>
+            </div>
+            <div class="btn-box">
+              <button onclick="sub()">
+                SEND
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6">
+          <div class="img-box">
+            <img src="images/contact-img.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end contact section -->
+
+  <!-- info section -->
+
+  <section class="info_section layout_padding2">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-lg-3 info-col">
+          <div class="info_detail">
+            <h4>
+              About
+            </h4>
+            <p>
+              Welcome to <strong> PYQwala!</strong> 🎯📚 <br>
+
+                Your one-stop destination for Previous Year Question Papers (PYQs) to boost your exam preparation.
+                <br>
+                Start your journey to success today! 🚀✨
+                <br>
+                📩 Need help? <br> Contact anytime!
+            </p>
+            <div class="info_social">
+              <a href="">
+                <i class="fa fa-facebook" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-twitter" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-linkedin" aria-hidden="true"></i>
+              </a>
+              <a href="">
+                <i class="fa fa-instagram" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 info-col">
+          <div class="info_contact">
+            <h4>
+              Address
+            </h4>
+            <div class="contact_link_box">
+              <a href="https://maps.app.goo.gl/sNg8NXh1vGgmurA38" target="_blank">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                <span>
+                  Location
+                </span>
+              </a>
+              <a href="tel:+01 1234567890">
+                <i class="fa fa-phone" aria-hidden="true"></i>
+                <span>
+                  Call
+                </span>
+              </a>
+              <a href="mailto:pyqwala.connect@gmail.com">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <span>
+                  Email
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+  <!-- end info section -->
+
+  <!-- footer section -->
+ 
+  <!-- footer section -->
+
+  <!-- jQery -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <!-- bootstrap js -->
+  <script src="js/bootstrap.js"></script>
+  <!-- custom js -->
+  <script src="js/custom.js"></script>
+  <!-- Google Map -->
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"> -->
+  </script>
+  <!-- End Google Map -->
+   <a hidden  id="apkDown" href="https://apkpure.net/pyqwala/co.median.android.eamwpl" target="_blank"></a>
+   
+   <script>
+    function apkPure(){
+      const apkDown = window.document.getElementById("apkDown");
+      apkDown.click();
+    }
+
+    function downAPK(){
+      document.addEventListener("DOMContentLoaded", function(){
+        const apkBuildNum = window.localStorage.getItem("apkBuildNum");
+        const webBuildNum = window.localStorage.getItem("webBuildNum");
+          if(apkBuildNum){
+            if(apkBuildNum<webBuildNum){
+              document.getElementById("oldVersion").textContent =`Installed Build=${apkBuildNum}`;
+              document.getElementById("newVersion").textContent =`Latest Build=${webBuildNum}`;
+              openPopup();
+            }
+          }else{
+            document.addEventListener("click",function(event){
+              event.preventDefault();
+              if(event.target.id==="downloadBut"){
+                window.open("https://apkpure.net/pyqwala/co.median.android.eamwpl","_blank");
+              }
+              // window.document.getElementById("closeBtn").hidden = true;
+              window.document.getElementById("downloadNote").innerHTML = "Download Latest PYQwala.apk";
+              window.document.getElementById("downloadBut").innerHTML = "DOWNLOAD";
+              openPopup();
+            })
+            }
+        })
+      }
+
+      downAPK();
+
+      
+   </script>
+</body>
+</html>
