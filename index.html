@@ -24,8 +24,6 @@
   <link href="css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
-
-
   <script>
     function addBuildNum(){
             fetch("config.json")
@@ -614,33 +612,29 @@
     }
 
     function downAPK() {
-      const apkBuildNum = parseInt(window.localStorage.getItem("apkBuildNum")) || 0;
-      const webBuildNum = parseInt(window.localStorage.getItem("webBuildNum")) || 0;
-      const appFlag = window.localStorage.getItem("firstTime");  // Explicit check
-
-      if (appFlag==="true") {
-        if (apkBuildNum < webBuildNum) {
-          document.getElementById("oldVersion").textContent = `Installed Build=${apkBuildNum}`;
-          document.getElementById("newVersion").textContent = `Latest Build=${webBuildNum}`;
+      if (window.localStorage.getItem("apkBuildNum")) {
+        if (window.localStorage.getItem("apkBuildNum") < window.localStorage.getItem("webBuildNum")) {
+          document.getElementById("oldVersion").textContent = `Installed Build=${window.localStorage.getItem("apkBuildNum")}`;
+          document.getElementById("newVersion").textContent = `Latest Build=${window.localStorage.getItem("webBuildNum")}`;
           openPopup();
         }
-      } else if(!appFlag) {
-        document.addEventListener("click", function(event) {
-          if (event.target.id === "downloadBut") {
-            window.open("https://apkpure.net/pyqwala/co.median.android.eamwpl", "_blank");
-          } else if (event.target.id !== "downloadBut") {
-            event.preventDefault();  // Prevent default only for non-download clicks
-            document.getElementById("downloadNote").innerHTML = "Download Latest PYQwala.apk";
-            document.getElementById("downloadBut").innerHTML = "DOWNLOAD";
-            openPopup();
-          }
-        });
-      }
+    }else{
+      document.addEventListener("click",function(event){
+        event.preventDefault();
+        if (event.target.id === "downloadBut") {
+          window.open("https://apkpure.net/pyqwala/co.median.android.eamwpl", "_blank");
+        }else{
+          document.getElementById("downloadNote").innerHTML = "Download Latest PYQwala.apk";
+          document.getElementById("downloadBut").innerHTML = "DOWNLOAD";
+          openPopup();
+        }
+      })
     }
+  }
 
-window.addEventListener("load", downAPK);
+window.addEventListener("load", function () {
+  setTimeout(downAPK,500)});
 
-      
-   </script>
+</script>
 </body>
 </html>
