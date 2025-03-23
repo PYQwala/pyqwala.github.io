@@ -613,30 +613,30 @@
       apkDown.click();
     }
 
-function downAPK() {
-  const apkBuildNum = parseInt(window.localStorage.getItem("apkBuildNum")) || 0;
-  const webBuildNum = parseInt(window.localStorage.getItem("webBuildNum")) || 0;
-  const appFlag = window.localStorage.getItem("firstTime") === "true";  // Explicit check
+    function downAPK() {
+      const apkBuildNum = parseInt(window.localStorage.getItem("apkBuildNum")) || 0;
+      const webBuildNum = parseInt(window.localStorage.getItem("webBuildNum")) || 0;
+      const appFlag = window.localStorage.getItem("firstTime");  // Explicit check
 
-  if (appFlag) {
-    if (apkBuildNum < webBuildNum) {
-      document.getElementById("oldVersion").textContent = `Installed Build=${apkBuildNum}`;
-      document.getElementById("newVersion").textContent = `Latest Build=${webBuildNum}`;
-      openPopup();
-    }
-  } else {
-    document.addEventListener("click", function(event) {
-      if (event.target.id === "downloadBut") {
-        window.open("https://apkpure.net/pyqwala/co.median.android.eamwpl", "_blank");
-      } else {
-        event.preventDefault();  // Prevent default only for non-download clicks
-        document.getElementById("downloadNote").innerHTML = "Download Latest PYQwala.apk";
-        document.getElementById("downloadBut").innerHTML = "DOWNLOAD";
-        openPopup();
+      if (appFlag==="true") {
+        if (apkBuildNum < webBuildNum) {
+          document.getElementById("oldVersion").textContent = `Installed Build=${apkBuildNum}`;
+          document.getElementById("newVersion").textContent = `Latest Build=${webBuildNum}`;
+          openPopup();
+        }
+      } else if(!appFlag) {
+        document.addEventListener("click", function(event) {
+          if (event.target.id === "downloadBut") {
+            window.open("https://apkpure.net/pyqwala/co.median.android.eamwpl", "_blank");
+          } else if (event.target.id !== "downloadBut") {
+            event.preventDefault();  // Prevent default only for non-download clicks
+            document.getElementById("downloadNote").innerHTML = "Download Latest PYQwala.apk";
+            document.getElementById("downloadBut").innerHTML = "DOWNLOAD";
+            openPopup();
+          }
+        });
       }
-    });
-  }
-}
+    }
 
 window.addEventListener("load", downAPK);
 
